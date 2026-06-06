@@ -21,40 +21,6 @@ const defaultForm = {
   estado: 'Programada',
 }
 
-function formatFecha(iso: string | Date): string {
-  if (!iso) return '—'
-  const d = new Date(iso)
-  if (isNaN(d.getTime())) return String(iso)
-  const dia = d.getDate().toString().padStart(2, '0')
-  const mes = (d.getMonth() + 1).toString().padStart(2, '0')
-  const anio = d.getFullYear()
-  const hora = d.getHours().toString().padStart(2, '0')
-  const min = d.getMinutes().toString().padStart(2, '0')
-  return `${dia}/${mes}/${anio} ${hora}:${min}`
-}
-
-const columns = [
-  { key: 'fechaCita', label: 'Fecha', render: (item: CitaMedica) => (
-    <div>
-      <span className="text-[#0f172a] font-medium">{formatFecha(item.fechaCita).split(' ')[0]}</span>
-      <span className="text-[#94a3b8] ml-2">{formatFecha(item.fechaCita).split(' ')[1]}</span>
-    </div>
-  )},
-  { key: 'motivo', label: 'Motivo' },
-  { key: 'estado', label: 'Estado', render: (item: CitaMedica) => {
-    const colors: Record<string, string> = {
-      Programada: 'bg-clinic-50 text-clinic-700',
-      Atendida: 'bg-emerald-50 text-emerald-700',
-      Cancelada: 'bg-red-50 text-red-700',
-    }
-    return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colors[item.estado] || 'bg-slate-100 text-slate-600'}`}>
-        {item.estado}
-      </span>
-    )
-  }},
-]
-
 export default function CitasMedicas() {
   const [data, setData] = useState<CitaMedica[]>([])
   const [pacientes, setPacientes] = useState<Paciente[]>([])
@@ -65,6 +31,53 @@ export default function CitasMedicas() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState(defaultForm)
   const [error, setError] = useState('')
+
+  const pacienteName = (id: string) => {
+    const p = pacientes.find(p => p.idPaciente === id)
+    return p ? `${p.nombres} ${p.apellidos}` : id
+  }
+
+  const medicoName = (id: string) => {
+    const m = medicos.find(m => m.idMedico === id)
+    return m ? `${m.nombres} ${m.apellidos}` : id
+  }
+
+  const columns = [
+    { key: 'fechaCita', label: 'Fecha', render: (item: CitaMedica) => {
+      const d = new Date(item.fechaCita)
+      if (isNaN(d.getTime())) return <span>{String(item.fechaCita)}</span>
+      const dia = d.getDate().toString().padStart(2, '0')
+      const mes = (d.getMonth() + 1).toString().padStart(2, '0')
+      const anio = d.getFullYear()
+      const hora = d.getHours().toString().padStart(2, '0')
+      const min = d.getMinutes().toString().padStart(2, '0')
+      return (
+        <span className="whitespace-nowrap">
+          <span className="text-[#0f172a] font-medium">{dia}/{mes}/{anio}</span>
+          <span className="text-[#94a3b8] ml-2"> {hora}:{min}</span>
+        </span>
+      )
+    }},
+    { key: 'idPaciente', label: 'Paciente', render: (item: CitaMedica) => (
+      <span className="text-[#0f172a]">{pacienteName(item.idPaciente)}</span>
+    )},
+    { key: 'idMedico', label: 'Médico', render: (item: CitaMedica) => (
+      <span className="text-[#0f172a]">{medicoName(item.idMedico)}</span>
+    )},
+    { key: 'motivo', label: 'Motivo' },
+    { key: 'estado', label: 'Estado', render: (item: CitaMedica) => {
+      const colors: Record<string, string> = {
+        Programada: 'bg-clinic-50 text-clinic-700',
+        Atendida: 'bg-emerald-50 text-emerald-700',
+        Cancelada: 'bg-red-50 text-red-700',
+      }
+      return (
+        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colors[item.estado] || 'bg-slate-100 text-slate-600'}`}>
+          {item.estado}
+        </span>
+      )
+    }},
+  ]
 
   const fetchData = async () => {
     try {

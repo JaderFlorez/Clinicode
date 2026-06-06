@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/index.js",
-    "dev": "node --loader ts-node/esm src/index.ts",
+    "dev": "tsx src/index.ts",
     "test": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" jest --passWithNoTests",
     "test:unit": "npm run test -- --testPathPattern=unit",
     "test:integration": "npm run test -- --testPathPattern=integration",
@@ -39,6 +39,7 @@
     "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "tsx": "^4.22.4",
     "typescript": "^5.9.3"
   }
 }
