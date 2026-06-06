@@ -77,12 +77,16 @@ export default function Especialidades() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white font-[family-name:var(--font-display)]">Especialidades</h1>
-          <p className="text-white/50 text-sm mt-1">Gestión de especialidades médicas</p>
+          <h1 className="text-2xl font-bold text-[#0f172a] tracking-tight">Especialidades</h1>
+          <p className="text-[#64748b] text-sm mt-1">Gestión de especialidades médicas</p>
         </div>
         <button onClick={() => { setEditingId(null); setForm(defaultForm); setModalOpen(true) }}
-          className="hero-btn px-5 py-2.5 rounded-xl text-sm font-medium">
-          + Nueva Especialidad
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-clinic-500 text-white text-sm font-medium
+            hover:bg-clinic-600 active:bg-clinic-700 transition-all duration-200 shadow-sm shadow-clinic-500/20">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          Nueva Especialidad
         </button>
       </div>
 
@@ -92,24 +96,28 @@ export default function Especialidades() {
       <Modal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditingId(null); setForm(defaultForm) }}
         title={editingId ? 'Editar Especialidad' : 'Nueva Especialidad'}>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {error && <div className="p-3 text-sm bg-red-500/10 text-red-400 rounded-xl">{error}</div>}
+          {error && <div className="p-3 text-sm bg-red-50 text-red-600 rounded-xl border border-red-200">{error}</div>}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-1">Nombre</label>
+              <label className="block text-sm font-medium text-[#475569] mb-1.5">Nombre</label>
               <input type="text" value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})}
-                className="hero-input w-full px-3 py-2 rounded-xl border border-gray-200 focus:border-clinic-500 focus:ring-2 focus:ring-clinic-200 outline-none transition-all text-sm" required />
+                className="w-full px-3 py-2.5 rounded-xl border border-[#e2e8f0] bg-white text-[#0f172a] text-sm
+                  focus:border-clinic-500 focus:ring-2 focus:ring-clinic-500/20 outline-none transition-all placeholder:text-[#94a3b8]" required />
             </div>
             <div>
-              <label className="block text-sm font-medium text-white/70 mb-1">Descripción</label>
+              <label className="block text-sm font-medium text-[#475569] mb-1.5">Descripción</label>
               <textarea value={form.descripcion} onChange={e => setForm({...form, descripcion: e.target.value})}
-                className="hero-input w-full px-3 py-2 rounded-xl border border-gray-200 focus:border-clinic-500 focus:ring-2 focus:ring-clinic-200 outline-none transition-all text-sm" rows={3} />
+                className="w-full px-3 py-2.5 rounded-xl border border-[#e2e8f0] bg-white text-[#0f172a] text-sm
+                  focus:border-clinic-500 focus:ring-2 focus:ring-clinic-500/20 outline-none transition-all placeholder:text-[#94a3b8]" rows={3} />
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" onClick={() => { setModalOpen(false); setEditingId(null); setForm(defaultForm) }}
-              className="hero-btn-secondary px-4 py-2 text-sm font-medium rounded-xl">Cancelar</button>
+              className="px-4 py-2.5 rounded-xl border border-[#e2e8f0] bg-white text-[#475569] text-sm font-medium
+                hover:bg-[#f8fafc] hover:border-[#cbd5e1] transition-all duration-200">Cancelar</button>
             <button type="submit"
-              className="hero-btn px-5 py-2.5 rounded-xl text-sm font-medium">
+              className="px-5 py-2.5 rounded-xl bg-clinic-500 text-white text-sm font-medium
+                hover:bg-clinic-600 active:bg-clinic-700 transition-all duration-200 shadow-sm shadow-clinic-500/20">
               {editingId ? 'Actualizar' : 'Crear'}
             </button>
           </div>
