@@ -6,7 +6,11 @@
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/index.js",
-    "dev": "node --loader ts-node/esm src/index.ts"
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "test": "cross-env NODE_OPTIONS=\"--loader ts-node/esm\" jest --passWithNoTests",
+    "test:unit": "npm run test -- --testPathPattern=unit",
+    "test:integration": "npm run test -- --testPathPattern=integration",
+    "test:watch": "npm run test -- --watch"
   },
   "keywords": [],
   "author": "",
@@ -14,15 +18,25 @@
   "description": "",
   "dependencies": {
     "@fastify/cors": "^11.1.0",
+    "@fastify/swagger": "^9.7.0",
+    "@fastify/swagger-ui": "^5.2.6",
     "@supabase/supabase-js": "^2.78.0",
     "dotenv": "^17.2.3",
     "fastify": "^5.6.1",
     "fastify-env": "^2.1.1",
+    "pg": "^8.21.0",
     "uuid": "^13.0.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.7.2",
+    "@types/pg": "^8.20.0",
+    "@types/supertest": "^7.2.0",
+    "cross-env": "^10.1.0",
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"

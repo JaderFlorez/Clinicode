@@ -1,0 +1,21 @@
+meta {
+  name: New HTTP Request
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:3000/api/agendas-medico
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "idMedico": "bf4df38d-d23b-46c8-8362-06b6ac3c2eff",
+    "idConsultorio": "a0b63eea-3a60-42ca-ba18-08f673f838e0",
+    "diasDisponibles": ["Lunes", "Miércoles", "Viernes"],
+    "horaInicio": "08:00",
+    "horaFin": "12:00"
+  }
+}

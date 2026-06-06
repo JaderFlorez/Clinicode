@@ -1,7 +1,11 @@
-import { Consultorio } from "../entidades/consultorios/IConsultorio.js";
 
+import { IConsultorio } from "../entidades/consultorio/IConsultorio.js";
 
 export interface IConsultorioRepositorio {
-    crear(consultorio: Consultorio): Promise<void>;
-    listar(): Promise<Consultorio[]>;
-}
+    crearConsultorio(datosConsultorio: IConsultorio): Promise<string>;
+    listarConsultorios(limite?: number): Promise<IConsultorio[]>;
+    obtenerConsultorioPorId(idConsultorio: string): Promise<IConsultorio | null>;
+    actualizarConsultorio(idConsultorio: string, datosConsultorio: IConsultorio): Promise<IConsultorio>;
+    eliminarConsultorio(idConsultorio: string): Promise<void>;
+};
+
