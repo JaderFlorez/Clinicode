@@ -13,7 +13,7 @@
 
     // For nodejs:
     "lib": ["esnext"],
-    "types": ["node"],
+    "types": ["node", "jest"],
     // and npm install -D @types/node
 
     // Other Outputs
@@ -23,7 +23,6 @@
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
 
     // Style Options
     // "noImplicitReturns": true,
@@ -35,5 +34,6 @@
 
     // Recommended Options
     "strict": true
-  }
+  },
+  "exclude": ["node_modules", "dist", "frontend", "jest.config.ts"]
 }

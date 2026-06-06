@@ -5,11 +5,11 @@ import { ObtenerPacientePorId } from "../../core/aplicacion/pacienteCasoUso/Obte
 import { ActualizarPaciente } from "../../core/aplicacion/pacienteCasoUso/ActualizarPaciente.js";
 import { EliminarPaciente } from "../../core/aplicacion/pacienteCasoUso/EliminarPaciente.js";
 import { PacienteDTO, CrearPacienteEsquema } from "../../core/infraestructura/esquemas/PacienteEsquema.js";
-import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase.js";
+import { PacienteRepositorio } from "../../core/infraestructura/repositorios/pacienteRepositorio.js";
 import { ZodError } from "zod";
 
 
-const repo = new PacienteRepositorioSupaBase();
+const repo = new PacienteRepositorio();
 
 const crearPacienteCaso = new CrearPaciente(repo);
 const listarPacientesCaso = new ListarPacientes(repo);

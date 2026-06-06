@@ -5,10 +5,10 @@ import { ObtenerAgendaPorId } from "../../core/aplicacion/agendaMedicoCasoUso/Ob
 import { ActualizarAgenda } from "../../core/aplicacion/agendaMedicoCasoUso/ActualizarAgenda.js";
 import { EliminarAgenda } from "../../core/aplicacion/agendaMedicoCasoUso/EliminarAgenda.js";
 import { AgendaMedicoDTO, CrearAgendaMedicoEsquema } from "../../core/infraestructura/esquemas/AgendaMedicoEsquema.js";
-import { AgendaMedicoRepositorioSupaBase } from "../../core/infraestructura/repositorios/agendaMedicoRepositorioSupaBase.js";
+import { AgendaMedicoRepositorio } from "../../core/infraestructura/repositorios/agendaMedicoRepositorio.js";
 import { ZodError } from "zod";
 
-const repo = new AgendaMedicoRepositorioSupaBase();
+const repo = new AgendaMedicoRepositorio();
 
 const crearAgendaMedicoCaso = new CrearAgendaMedico(repo);
 const listarAgendaMedicoCaso = new ListarAgendaMedico(repo);

@@ -1,105 +1,148 @@
+# Clinicode - Sistema de Gestión Clínica
 
-Este proyecto es la API backend para el **Sistema Clínico**, desarrollado con **Node.js**, **TypeScript** y el framework **Fastify**. Utiliza **Supabase** como servicio de base de datos y autenticación.
+Aplicación full-stack para la gestión de una clínica médica. Backend con **Node.js**, **TypeScript**, **Fastify** + **PostgreSQL**. Frontend con **React**, **Vite** y **Tailwind CSS v4**.
 
-## Configuración del Proyecto
+## Stack Tecnológico
 
-Sigue estos pasos para clonar el repositorio y configurar el proyecto en tu entorno local.
+| Capa     | Tecnologías                                             |
+| -------- | ------------------------------------------------------- |
+| Backend  | Node.js, TypeScript, Fastify, PostgreSQL, Zod, Swagger  |
+| Frontend | React 19, Vite 8, Tailwind CSS v4, React Router, Axios |
+| Testing  | Jest, Supertest                                         |
 
-### 1. Requisitos Previos
+## Entidades
 
-Asegúrate de tener instalado lo siguiente:
+- **Pacientes** — CRUD completo
+- **Médicos** — CRUD completo
+- **Especialidades** — CRUD completo
+- **Consultorios** — CRUD completo
+- **Agendas Médico** — CRUD completo (agenda por médico)
+- **Disponibilidad Consultorio** — CRUD completo (horarios por consultorio)
+- **Citas Médicas** — CRUD completo
 
-*   **Node.js** (versión recomendada: 18 o superior)
-*   **npm** (se instala con Node.js)
-*   **Git**
+## Requisitos
 
-### 2. Clonación del Repositorio
+- Node.js 18+
+- PostgreSQL 14+
+- npm
 
-Clona el repositorio a tu máquina local usando Git:
+## Configuración
+
+### 1. Clonar e instalar
 
 ```bash
 git clone https://github.com/Inexsu-Coordinadora/Clinicode.git
-```
+cd Clinicode
 
-### 3. Instalación de Dependencias
-
-Una vez dentro del directorio del proyecto, instala todas las dependencias necesarias:
-
-```bash
+# Instalar backend
 npm install
+
+# Instalar frontend
+cd frontend
+npm install
+cd ..
 ```
 
-### 4. Configuración de Variables de Entorno
+### 2. Variables de Entorno
 
-El proyecto utiliza el paquete `dotenv` para gestionar las variables de entorno. Necesitas crear un archivo llamado `.env` en la raíz del proyecto.
+Crear archivo `.env` en la raíz:
 
-**`.env`**
-
-```
-# Configuración de Supabase
-# Debes obtener estos valores desde el panel de control de tu proyecto Supabase
-SUPABASE_URL="[TU_URL_DE_PROYECTO_SUPABASE]"
-SUPABASE_ANON_KEY="[TU_CLAVE_ANON_SUPABASE]"
-
-# Otras variables de entorno necesarias para el proyecto (si las hay)
-# ...
+```env
+DB_USER=postgres
+DB_PASSWORD=tu_password
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=clinicode
+PORT=3000
 ```
 
-> **Importante:** El proyecto utiliza `supabase-js` para interactuar con la base de datos. Asegúrate de que tu proyecto Supabase esté configurado y que las credenciales sean correctas.
+### 3. Base de Datos
 
-### 5. Configuración de la Base de Datos (Migraciones)
-
-El proyecto requiere una estructura de base de datos específica. Las migraciones SQL definen las tablas y relaciones necesarias.
-
-**Tecnología de Base de Datos:** La estructura SQL proporcionada (`migraciones.sql`) es compatible con **PostgreSQL** (el motor de base de datos de Supabase), incluyendo el uso del tipo `uuid` y `ENUM`.
-
-#### 5.1. Aplicar Migraciones
-
-Debes ejecutar el contenido del archivo `migraciones.sql` en tu base de datos de Supabase.
-
-1.  Accede al panel de control de tu proyecto Supabase.
-2.  Navega a la sección **SQL Editor** (o similar).
-3.  Copia y pega todo el contenido del archivo `migraciones.sql` en el editor.
-4.  Ejecuta el script para crear las tablas: `pacientes`, `especialidades`, `medicos`, `consultorios`, `disponibilidad_consultorio` y `citas_medicas`, junto con sus respectivas claves foráneas.
-
-### 6. Ejecución del Proyecto
-
-El proyecto ofrece dos modos de ejecución: desarrollo y producción.
-
-#### Modo Desarrollo
-
-Para ejecutar el proyecto en modo desarrollo con recarga automática (hot-reload) usando `ts-node`:
+Ejecutar las migraciones contra tu base PostgreSQL:
 
 ```bash
+psql -U postgres -d clinicode -f migraciones/migraciones.sql
+```
+
+### 4. Ejecutar
+
+```bash
+# Backend (desde la raíz)
+npm run dev
+
+# Frontend (desde frontend/)
+cd frontend
 npm run dev
 ```
 
-El servidor se iniciará y estará escuchando en el puerto configurado (por defecto, Fastify usa el puerto `3000` a menos que se configure lo contrario).
+- **Backend**: http://localhost:3000
+- **Documentación Swagger**: http://localhost:3000/docs
+- **Frontend**: http://localhost:5173
 
-#### Modo Producción
+## Scripts
 
-Para compilar y ejecutar el proyecto para producción:
+### Backend
+| Comando               | Descripción                        |
+| --------------------- | ---------------------------------- |
+| `npm run dev`         | Inicia servidor con hot-reload     |
+| `npm run build`       | Compila TypeScript a JS            |
+| `npm start`           | Ejecuta compilado de producción    |
+| `npm test`            | Ejecuta todos los tests            |
+| `npm run test:unit`   | Tests unitarios                    |
+| `npm run test:integration` | Tests de integración          |
 
-1.  **Compilar el código TypeScript a JavaScript:**
-    ```bash
-    npm run build
-    ```
-    Esto generará los archivos JavaScript en el directorio `dist/`.
+### Frontend
+| Comando           | Descripción                    |
+| ----------------- | ------------------------------ |
+| `npm run dev`     | Inicia servidor de desarrollo  |
+| `npm run build`   | Compila para producción        |
+| `npm run preview` | Previsualiza build producción  |
 
-2.  **Iniciar el servidor de producción:**
-    ```bash
-    npm start
-    ```
+## Estructura del Proyecto
 
-## Documentación del Proyecto
+```
+Clinicode/
+├── src/
+│   ├── core/
+│   │   ├── dominio/          # Entidades, interfaces, schemas Zod
+│   │   │   └── entidades/    # paciente, medico, especialidad, etc.
+│   │   └── aplicacion/       # Casos de uso
+│   ├── infraestructura/
+│   │   └── persistencia/     # Repositorios PostgreSQL
+│   └── presentacion/
+│       ├── controladores/    # Fastify route handlers
+│       ├── rutas/            # Definición de rutas con OpenAPI schemas
+│       └── app.ts            # Configuración de Fastify + Swagger
+├── frontend/
+│   └── src/
+│       ├── api/              # Servicios HTTP (axios)
+│       ├── components/       # Layout, DataTable, Modal
+│       └── pages/            # Dashboard, Pacientes, etc.
+├── docs/                     # Documentación
+│   ├── swagger.md            # Guía de Swagger UI
+│   └── api-guia.md           # Referencia de endpoints
+├── migraciones/
+│   └── migraciones.sql       # Schema de base de datos
+└── README.md
+```
 
-En el siguiente enlace encontrarás la documentación del proyecto:
+## Documentación
 
-https://docs.google.com/document/d/1VYBwgj6q2qgskG_6QSNeL9d03RMZmIWy/edit?usp=drive_link&ouid=112543562299618439305&rtpof=true&sd=true
+- **Swagger UI**: http://localhost:3000/docs (interactivo)
+- **docs/swagger.md**: formato de respuestas
+- **docs/api-guia.md**: referencia de endpoints
 
+## Tests
 
-## Pruebas de endpoints
+```bash
+# Todos los tests
+npm test
 
-En el siguiente link encontrarás las pruebas de los endpoints con el API Client Bruno:
+# Solo unitarios
+npm run test:unit
 
-https://drive.google.com/file/d/1dA59MGxFkHyc21oHpPnG0nf3cpPhxafv/view?usp=drive_link
+# Solo integración
+npm run test:integration
+```
+
+El proyecto sigue **Clean Architecture** con separación clara de dominio, aplicación e infraestructura. Cada entidad tiene su propio caso de uso, controlador y endpoints REST.

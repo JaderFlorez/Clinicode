@@ -67,3 +67,16 @@ ALTER TABLE "citas_medicas" ADD FOREIGN KEY ("id_paciente") REFERENCES "paciente
 ALTER TABLE "citas_medicas" ADD FOREIGN KEY ("id_medico") REFERENCES "medicos" ("id_medico");
 
 ALTER TABLE "citas_medicas" ADD FOREIGN KEY ("id_consultorio") REFERENCES "consultorios" ("id_consultorio");
+
+CREATE TABLE "agenda_medico" (
+  "id_agenda" uuid PRIMARY KEY,
+  "id_medico" uuid NOT NULL,
+  "id_consultorio" uuid NOT NULL,
+  "dias_disponibles" text[],
+  "hora_inicio" time,
+  "hora_fin" time,
+  "creada_en" timestamp DEFAULT now()
+);
+
+ALTER TABLE "agenda_medico" ADD FOREIGN KEY ("id_medico") REFERENCES "medicos" ("id_medico");
+ALTER TABLE "agenda_medico" ADD FOREIGN KEY ("id_consultorio") REFERENCES "consultorios" ("id_consultorio");

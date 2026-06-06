@@ -2,8 +2,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-
 export const configuracion = {
-    supabaseUrl: process.env.SUPABASE_URL!,
-    supabaseKey: process.env.SUPABASE_KEY!,
+    dbHost: process.env.DB_HOST ?? 'localhost',
+    dbUser: process.env.DB_USER ?? 'postgres',
+    dbPassword: process.env.DB_PASSWORD ?? '',
+    dbDatabase: process.env.DB_DATABASE ?? 'pacientes',
+    dbPort: Number(process.env.DB_PORT) || 5432,
 };
