@@ -7,4 +7,5 @@ export interface ICitaMedica {
     fechaCita: Date;
     motivo?: string | null;
     estado?: string;
+    duracionMinutos?: number;
 };

@@ -6,6 +6,7 @@ import { ActualizarCitaMedica } from "../../core/aplicacion/citaMedicaCasoUso/Ac
 import { EliminarCitaMedica } from "../../core/aplicacion/citaMedicaCasoUso/EliminarCitaMedica.js";
 import { CitaMedicaDTO, CrearCitaMedicaEsquema } from "../../core/infraestructura/esquemas/CitaMedicaEsquema.js";
 import { CitaMedicaRepositorio } from "../../core/infraestructura/repositorios/citaMedicaRepositorio.js";
+import { ConflictoHorarioError, MedicoNoDisponibleError } from "../../core/dominio/errores.js";
 import { ZodError } from "zod";
 
 
@@ -34,6 +35,19 @@ export async function crearCitaMedicaControlador(
       return reply.code(400).send({
         mensaje: "Datos inválidos",
         error: err.issues[0]?.message || "Error desconocido",
+      });
+    }
+
+    if (err instanceof MedicoNoDisponibleError) {
+      return reply.code(409).send({
+        mensaje: err.message,
+      });
+    }
+
+    if (err instanceof ConflictoHorarioError) {
+      return reply.code(409).send({
+        mensaje: err.message,
+        conflictos: err.conflictos,
       });
     }
 
@@ -111,6 +125,15 @@ export async function actualizarCitaMedicaControlador(
         });
 
     } catch(err) {
+      if (err instanceof MedicoNoDisponibleError) {
+        return reply.code(409).send({ mensaje: err.message });
+      }
+      if (err instanceof ConflictoHorarioError) {
+        return reply.code(409).send({
+          mensaje: err.message,
+          conflictos: err.conflictos,
+        });
+      }
       return reply.code(500).send({
         mensaje: "Error al actualizar la cita médica",
         error: err instanceof Error ? err.message : err

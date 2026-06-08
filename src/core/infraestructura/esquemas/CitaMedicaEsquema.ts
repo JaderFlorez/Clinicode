@@ -30,6 +30,13 @@ export const CrearCitaMedicaEsquema = z.object({
     string()
     .optional()
     .transform((val) => val ?? "Programada"),
+    duracionMinutos: z.
+    number()
+    .int()
+    .min(1, "La duración debe ser al menos 1 minuto")
+    .max(480, "La duración no puede superar 480 minutos (8 horas)")
+    .optional()
+    .transform((val) => val ?? 30),
 });
 
 export type CitaMedicaDTO = z.infer<typeof CrearCitaMedicaEsquema>;

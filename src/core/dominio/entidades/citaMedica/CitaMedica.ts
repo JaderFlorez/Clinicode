@@ -7,6 +7,7 @@ export class CitaMedica implements ICitaMedica {
     fechaCita: Date;
     motivo: string | null;
     estado: string;
+    duracionMinutos: number;
 
     constructor(datosCitaMedica: ICitaMedica){
         this.idPaciente = datosCitaMedica.idPaciente;
@@ -15,5 +16,6 @@ export class CitaMedica implements ICitaMedica {
         this.fechaCita = datosCitaMedica.fechaCita;
         this.motivo = datosCitaMedica.motivo ?? null;
         this.estado = datosCitaMedica.estado ?? "Programada";
+        this.duracionMinutos = datosCitaMedica.duracionMinutos ?? 30;
     }
 };

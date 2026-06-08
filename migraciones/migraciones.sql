@@ -55,7 +55,8 @@ CREATE TABLE "citas_medicas" (
   "id_consultorio" uuid NOT NULL,
   "fecha_cita" timestamp,
   "motivo" varchar(200),
-  "estado" estado_cita DEFAULT 'Programada'
+  "estado" estado_cita DEFAULT 'Programada',
+  "duracion_minutos" integer DEFAULT 30
 );
 
 ALTER TABLE "medicos" ADD FOREIGN KEY ("id_especialidad") REFERENCES "especialidades" ("id_especialidad");
