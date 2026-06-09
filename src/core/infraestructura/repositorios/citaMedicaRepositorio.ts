@@ -64,15 +64,23 @@ export class CitaMedicaRepositorio implements ICitaMedicaRepositorio {
         const hora = fecha.toTimeString().slice(0, 5);
 
         const { rows } = await db.query(
-            `SELECT id_agenda FROM "agenda_medico"
-             WHERE id_medico = $1
-               AND $2 = ANY(dias_disponibles)
-               AND $3::time >= hora_inicio
-               AND $3::time <= hora_fin
-             LIMIT 1`,
+            `SELECT
+               EXISTS(SELECT 1 FROM "agenda_medico" WHERE id_medico = $1) AS tiene_agenda,
+               EXISTS(
+                 SELECT 1 FROM "agenda_medico"
+                 WHERE id_medico = $1
+                   AND $2 = ANY(dias_disponibles)
+                   AND $3::time >= hora_inicio
+                   AND $3::time <= hora_fin
+               ) AS disponible_en_horario`,
             [idMedico, diaSemana, hora]
         );
-        return rows.length > 0;
+
+        const { tiene_agenda, disponible_en_horario } = rows[0];
+
+        // Si el médico no tiene agenda configurada, permitimos la cita
+        // Solo bloqueamos si TIENE agenda pero el horario no coincide
+        return !tiene_agenda || disponible_en_horario;
     }
 
     async verificarConflictos(

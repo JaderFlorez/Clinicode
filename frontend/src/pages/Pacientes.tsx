@@ -85,8 +85,8 @@ export default function Pacientes() {
       setForm(defaultForm)
       fetchData()
     } catch (err: unknown) {
-      const axiosError = err as { response?: { data?: { error?: string } } }
-      setError(axiosError.response?.data?.error || 'Error al guardar')
+      const axiosError = err as { response?: { data?: { error?: string; mensaje?: string } } }
+      setError(axiosError.response?.data?.mensaje || axiosError.response?.data?.error || 'Error al guardar')
     }
   }
 
@@ -97,7 +97,7 @@ export default function Pacientes() {
           <h1 className="text-2xl font-bold text-[#0f172a] tracking-tight">Pacientes</h1>
           <p className="text-[#64748b] text-sm mt-1">Gestión de pacientes registrados</p>
         </div>
-        <button onClick={() => { setEditingId(null); setForm(defaultForm); setModalOpen(true) }}
+        <button onClick={() => { setEditingId(null); setForm(defaultForm); setModalOpen(true); setError('') }}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-clinic-500 text-white text-sm font-medium
             hover:bg-clinic-600 active:bg-clinic-700 transition-all duration-200 shadow-sm shadow-clinic-500/20">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -110,7 +110,7 @@ export default function Pacientes() {
       <DataTable columns={columns} data={data} loading={loading}
         onEdit={handleEdit} onDelete={handleDelete} emptyMessage="No hay pacientes registrados" />
 
-      <Modal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditingId(null); setForm(defaultForm) }}
+      <Modal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditingId(null); setForm(defaultForm); setError('') }}
         title={editingId ? 'Editar Paciente' : 'Nuevo Paciente'}>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && <div className="p-3 text-sm bg-red-50 text-red-600 rounded-xl border border-red-200">{error}</div>}
@@ -169,7 +169,7 @@ export default function Pacientes() {
             </div>
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <button type="button" onClick={() => { setModalOpen(false); setEditingId(null); setForm(defaultForm) }}
+            <button type="button" onClick={() => { setModalOpen(false); setEditingId(null); setForm(defaultForm); setError('') }}
               className="px-4 py-2.5 rounded-xl border border-[#e2e8f0] bg-white text-[#475569] text-sm font-medium
                 hover:bg-[#f8fafc] hover:border-[#cbd5e1] transition-all duration-200">Cancelar</button>
             <button type="submit"

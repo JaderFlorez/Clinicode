@@ -39,16 +39,18 @@ export const CrearAgendaMedicoEsquema = z
     horaInicio: z
     .string()
     .nonempty("La hora de inicio es obligatoria")
-    .regex(/^([01]\d|2[0-3]):[0-5]\d$/, {
-        message: "Formato inválido. Usa HH:mm (por ejemplo, 08:00)",
-    }),
+    .regex(/^(0?[0-9]|1\d|2[0-3]):[0-5]\d(:[0-5]\d)?$/, {
+        message: "Formato de hora inválido. Usá HH:mm (ej: 09:00 o 9:00)",
+    })
+    .transform((hora) => hora.slice(0, 5)),
 
     horaFin: z
     .string()
     .nonempty("La hora de fin es obligatoria")
-    .regex(/^([01]\d|2[0-3]):[0-5]\d$/, {
-        message: "Formato inválido. Usa HH:mm (por ejemplo, 12:00)",
+    .regex(/^(0?[0-9]|1\d|2[0-3]):[0-5]\d(:[0-5]\d)?$/, {
+        message: "Formato de hora inválido. Usá HH:mm (ej: 17:00 o 5:00)",
     })
+    .transform((hora) => hora.slice(0, 5)),
 })
 .superRefine((agenda, ctx) => {
     if (agenda.horaInicio >= agenda.horaFin) {

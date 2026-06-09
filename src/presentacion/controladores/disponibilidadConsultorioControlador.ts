@@ -111,6 +111,12 @@ export async function actualizarDisponibilidadConsultorioControlador(
         });
 
     } catch(err) {
+      if (err instanceof ZodError) {
+        return reply.code(400).send({
+          mensaje: "Datos inválidos",
+          error: err.issues[0]?.message || "Error de validación",
+        });
+      }
       return reply.code(500).send({
         mensaje: "Error al actualizar la disponibilidad del consultorio",
         error: err instanceof Error ? err.message : err

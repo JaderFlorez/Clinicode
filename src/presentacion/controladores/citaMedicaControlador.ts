@@ -41,12 +41,15 @@ export async function crearCitaMedicaControlador(
     if (err instanceof MedicoNoDisponibleError) {
       return reply.code(409).send({
         mensaje: err.message,
+        error: err.message,
       });
     }
 
     if (err instanceof ConflictoHorarioError) {
+      const mensaje = err.message.replace("Conflicto de horario: ", "");
       return reply.code(409).send({
-        mensaje: err.message,
+        mensaje,
+        error: mensaje,
         conflictos: err.conflictos,
       });
     }
@@ -126,11 +129,16 @@ export async function actualizarCitaMedicaControlador(
 
     } catch(err) {
       if (err instanceof MedicoNoDisponibleError) {
-        return reply.code(409).send({ mensaje: err.message });
-      }
-      if (err instanceof ConflictoHorarioError) {
         return reply.code(409).send({
           mensaje: err.message,
+          error: err.message,
+        });
+      }
+      if (err instanceof ConflictoHorarioError) {
+        const mensaje = err.message.replace("Conflicto de horario: ", "");
+        return reply.code(409).send({
+          mensaje,
+          error: mensaje,
           conflictos: err.conflictos,
         });
       }
