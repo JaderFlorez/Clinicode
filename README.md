@@ -10,6 +10,23 @@ Aplicación full-stack para la gestión de una clínica médica. Backend con **N
 | Frontend | React 19, Vite 8, Tailwind CSS v4, React Router, Axios |
 | Testing  | Jest, Supertest                                         |
 
+## 🎥 Demo
+
+[![Ver demo en YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/lxHfnA_TJSE)
+
+## 📸 Pantallas
+
+| Módulo | Vista |
+|--------|-------|
+| **Dashboard** | ![Dashboard](docs/images/dashboard.png) |
+| **Pacientes** | ![Pacientes](docs/images/pacientes.png) |
+| **Médicos** | ![Médicos](docs/images/medicos.png) |
+| **Especialidades** | ![Especialidades](docs/images/especialidades.png) |
+| **Consultorios** | ![Consultorios](docs/images/consultorios.png) |
+| **Agenda del Médico** | ![Agenda Médico](docs/images/agendas-medico.png) |
+| **Disponibilidad Consultorio** | ![Disponibilidad](docs/images/disponibilidad-consultorio.png) |
+| **Citas Médicas** | ![Citas Médicas](docs/images/citas-medicas.png) |
+
 ## Entidades
 
 - **Pacientes** — CRUD completo
@@ -119,6 +136,7 @@ Clinicode/
 │       ├── components/       # Layout, DataTable, Modal
 │       └── pages/            # Dashboard, Pacientes, etc.
 ├── docs/                     # Documentación
+│   ├── images/               # Capturas de pantalla
 │   ├── swagger.md            # Guía de Swagger UI
 │   └── api-guia.md           # Referencia de endpoints
 ├── migraciones/
